@@ -3,3 +3,7 @@ D:\DEV\AdvancedSitemap\Sitecore.HTMLSiteMapBuilder\bin\Release\Sitecore.Advanced
 D:\DEV\AdvancedSitemap\Sitecore.HTMLSiteMapBuilder\bin\Release\Sitecore.Kernel.dll
 D:\DEV\AdvancedSitemap\Sitecore.HTMLSiteMapBuilder\obj\Release\Sitecore.AdvancedSiteMap.dll
 D:\DEV\AdvancedSitemap\Sitecore.HTMLSiteMapBuilder\obj\Release\Sitecore.AdvancedSiteMap.pdb
+C:\Users\Ryan\Source\Repos\SitecoreAdvancedSiteMapModule\Sitecore.HTMLSiteMapBuilder\bin\Release\Sitecore.AdvancedSiteMap.dll
+C:\Users\Ryan\Source\Repos\SitecoreAdvancedSiteMapModule\Sitecore.HTMLSiteMapBuilder\bin\Release\Sitecore.AdvancedSiteMap.pdb
+C:\Users\Ryan\Source\Repos\SitecoreAdvancedSiteMapModule\Sitecore.HTMLSiteMapBuilder\obj\Release\Sitecore.AdvancedSiteMap.dll
+C:\Users\Ryan\Source\Repos\SitecoreAdvancedSiteMapModule\Sitecore.HTMLSiteMapBuilder\obj\Release\Sitecore.AdvancedSiteMap.pdb

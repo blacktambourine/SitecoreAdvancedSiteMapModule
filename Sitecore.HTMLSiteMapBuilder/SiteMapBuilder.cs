@@ -77,18 +77,18 @@ namespace Sitecore.AdvancedSiteMap
                     }
 
                     bool useServerUrlOverride = site.Fields[SiteItemFields.ServerURL] != null && !string.IsNullOrEmpty(site.Fields[SiteItemFields.ServerURL].Value);
-                    
+                    string serverUrlOverrideUrl = site.Fields[SiteItemFields.ServerURL].Value;
+
                     StringBuilder sbSiteMap = new StringBuilder();
                     sbSiteMap.Append("<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd'>");
 
-                    List<Item> siteMapItems = _root.Axes.GetDescendants().Where(P => P.Fields["Show In XML SiteMap"].Value == "1").ToList();
+                    List<Item> siteMapItems = _root.Axes.GetDescendants().Where(P => P.Fields["Show In XML SiteMap"] != null && P.Fields["Show In XML SiteMap"].Value == "1").ToList();
                     if (siteMapItems != null && siteMapItems.Any())
                     {
                         if (_root.Fields["Show In XML SiteMap"].Value == "1")
                             siteMapItems.Add(_root);
                         
                         var options = global::Sitecore.Links.LinkManager.GetDefaultUrlOptions();
-                        options.AlwaysIncludeServerUrl = true;
                         options.LanguageEmbedding = LanguageEmbedding.Always;
                         options.SiteResolving = true;
                         
@@ -110,23 +110,20 @@ namespace Sitecore.AdvancedSiteMap
                         {
                             options.Language = langauge;
                             options.EmbedLanguage(langauge);
+                            options.Site = _site;
 
                             foreach (var item in siteMapItems)
                             {
+                                options.AlwaysIncludeServerUrl = !useServerUrlOverride;
+
                                 //to resolve issues with multisite link resolution here, set the rootPath="#" on the publisher site in web.config
                                 //and also add scheme="http" to the Site Definition for your site
                                 string url = LinkManager.GetItemUrl(item, options);
-                                
+
+                                // Add URL override to url
                                 if (useServerUrlOverride)
                                 {
-                                    if (url.Contains("://" + siteHostName + "/"))
-                                    {
-                                        url = url.Replace(siteHostName, site.Fields[SiteItemFields.ServerURL].Value.Replace("http://", "").Replace("https://", ""));
-                                    }
-                                    else
-                                    {
-                                        url = site.Fields[SiteItemFields.ServerURL].Value + "//" + url;
-                                    }
+                                    url = string.Format("{0}{1}", serverUrlOverrideUrl, url);
                                 }
 
                                 //handle where scheme="http" has not been added to Site Definitions
@@ -135,7 +132,7 @@ namespace Sitecore.AdvancedSiteMap
                                     url = url.Replace("://", "");                                    
                                 }
 
-                                if (!url.StartsWith("http://"))
+                                if (!url.StartsWith("http://") || !url.StartsWith("https://"))
                                 {
                                     url = "http://" + url;
                                 }
@@ -193,11 +190,24 @@ namespace Sitecore.AdvancedSiteMap
 
                         if (site.Fields[SiteItemFields.AddToRobotFile] != null)
                         {
+                            // Base URL
+                            var serverUrl = serverUrlOverrideUrl;
+
+                            if (!useServerUrlOverride)
+                            {
+                                // handles multi site, single site with hostname defined and single site with no hostname defined
+                                var item = siteMapItems.FirstOrDefault();
+                                Uri mySite = new Uri(LinkManager.GetItemUrl(item, new UrlOptions {LanguageEmbedding = LanguageEmbedding.Never, AlwaysIncludeServerUrl = true }));
+                                serverUrl = mySite.Scheme + Uri.SchemeDelimiter + mySite.Host;
+                            }
+
+                            serverUrl = serverUrl.EndsWith("/") ? serverUrl : serverUrl + "/"; // Ensure URL is built correctly
+
                             Sitecore.Data.Fields.CheckboxField _AddToRobotFile = site.Fields[SiteItemFields.AddToRobotFile];
                             if (_AddToRobotFile != null)
                             {
                                 if (_AddToRobotFile.Checked)
-                                    AddSitemapToRobots(fileName);
+                                    AddSitemapToRobots(string.Format("{0}{1}", serverUrl, fileName));
                             }
                         }
 

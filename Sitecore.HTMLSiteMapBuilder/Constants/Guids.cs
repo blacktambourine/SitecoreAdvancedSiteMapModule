@@ -11,14 +11,14 @@ namespace Sitecore.AdvancedSiteMap.Constants
     {
         public static class Items
         {
-            public static ID AdvancedSiteMapConfigItemId = new ID("{0E91DDD2-9BA2-47E5-9C7F-484C0E60484F}");
+            public static ID AdvancedSiteMapConfigItemId = new ID("{38ACC950-E87F-4A5C-9271-C55C4336AAAB}");
             public static ID LangaugesRootItem = new ID("{64C4F646-A3FA-4205-B98E-4DE2C609B60F}");
         }
 
         public static class Templates
         {
-            public static ID SiteMapSearchEngineConfigTemplateId = new ID("{D4939687-C5DE-4165-AE0D-206829104E99}");
-            public static ID SiteMapSiteTemplateId = new ID("{AACEFA89-BF04-4DF1-B6C1-09975D1F59FC}");
+            public static ID SiteMapSearchEngineConfigTemplateId = new ID("{55C6049A-09B7-488A-A363-46FB4A40819A}");
+            public static ID SiteMapSiteTemplateId = new ID("{9F454752-3C73-45F0-A03A-1B8EFD9F7F9E}");
         }
     }
 }

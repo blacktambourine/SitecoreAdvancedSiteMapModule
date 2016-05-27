@@ -78,7 +78,7 @@ namespace Sitecore.AdvancedSiteMap.Component
 
                 CheckboxField _MultilingualSiteMapXML = configItem.Fields[ConfigFieldsNames.MultilingualSiteMapXML];
                 if (_MultilingualSiteMapXML != null)
-                    this.enableRefreshSiteMapOnPublish = _MultilingualSiteMapXML.Checked;
+                    this.multilingualSiteMapXML = _MultilingualSiteMapXML.Checked;
 
                 CheckboxField _EnableSendXMLToSearchEngines = configItem.Fields[ConfigFieldsNames.EnableSendXMLToSearchEngines];
                 if (_EnableSendXMLToSearchEngines != null)
